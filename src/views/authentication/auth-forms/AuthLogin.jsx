@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 // material-ui
 import {
-    Box,
-    Button,
-    Checkbox,
-    FormControlLabel,
-    IconButton,
-    InputAdornment,
-    Stack,
-    Typography
+   Box,
+   Button,
+   IconButton,
+   InputAdornment,
+   Stack,
+   Typography
 } from '@mui/material';
 
 // Hooks
@@ -39,73 +37,52 @@ const schemaLogin = Yup.object().shape({
 // ============================|| LOGIN ||============================ //
 
 const AuthLogin = ({ setSecret, setHashTrocarsenha }) => {
-    const { hashUser } = useParams();
-    const { handleLoad } = useLoad();
-    const navigate = useNavigate();
+   const { hashUser } = useParams();
+   const { handleLoad } = useLoad();
+   const navigate = useNavigate();
+   const [showPassword, setShowPassword] = useState(false);
 
-    const [checked, setChecked] = useState(true);
-    const [showPassword, setShowPassword] = useState(false);
+   const { autenticar } = useAuth();
 
-    const { autenticar, resetPassword, verificarHashTrocarSenha } = useAuth();
-
-    const {
+   const {
       control,
       handleSubmit,
       getValues,
       formState: { errors },
    } = useForm({ resolver: yupResolver(schemaLogin) });
 
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
+   const handleClickShowPassword = () => {
+      setShowPassword(!showPassword);
+   };
 
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+   const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+   };
 
-    const handlePassword = async(user) => {
+   const handleLogin = async (data) => {
       handleLoad(true);
-      if (user) {
-         await resetPassword(user);
-      } else {
-         toast.info('Preencha o campo de usuário 😅');
-      }
+      await autenticar(data.login_usu, data.senha_usu);
       handleLoad(false);
-    };
+   }
 
-    const handleLogin = async(data) => {
-      handleLoad(true);
-      const result = await autenticar(data.login_usu, data.senha_usu);
-      if (result) {
-         setSecret(result);
-      }
-      handleLoad(false);
-    }
+   // useEffect(() => {
+   //    if (hashUser) {
+   //       async function buscarHash() {
+   //          handleLoad(true);
+   //          navigate('/login');
+   //          handleLoad(false);
+   //       }
 
-   useEffect(()=> {
-      if(hashUser) {
-         async function buscarHash(){
-            handleLoad(true);
-            const result = await verificarHashTrocarSenha(hashUser);
+   //       buscarHash();
+   //    }
+   // }, [hashUser])
 
-            if(result){
-               setHashTrocarsenha(result);
-            }else{
-               navigate('/login');
-            }
-            handleLoad(false);
-         }
-   
-         buscarHash();
-      }
-   },[hashUser])
-
-    return (
+   return (
       <>
          <InputForm
             name="login_usu"
             control={control}
-            label='Usuário'
+            label='Login'
             error={
                errors?.login_usu?.message
             }
@@ -118,42 +95,30 @@ const AuthLogin = ({ setSecret, setHashTrocarsenha }) => {
             endAdornment={
                <InputAdornment position="end">
                   <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                        size="large"
+                     aria-label="toggle password visibility"
+                     onClick={handleClickShowPassword}
+                     onMouseDown={handleMouseDownPassword}
+                     edge="end"
+                     size="large"
                   >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                </InputAdornment>
             }
             showPassword={showPassword}
-            error={ errors?.senha_usu?.message }
+            error={errors?.senha_usu?.message}
          />
 
-         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-            <FormControlLabel
-               control={
-                  <Checkbox
-                     checked={checked}
-                     onChange={(event) => setChecked(event.target.checked)}
-                     name="checked"
-                     color="primary"
-                  />
-               }
-               label="Lembrar Dados"
-            />
-
-            <Button onClick={() => handlePassword(getValues().login_usu)}>
-               <Typography
-                  variant="button"
-                  color="secondary"
-                  sx={{ textDecoration: 'none' }}
-               >
-                     Esqueceu sua senha?
-               </Typography>
-            </Button>
+         <Stack direction="row" alignItems="center" justifyContent="right" spacing={1}>
+            <Typography
+               variant="subtitle1"
+               component={Link}
+               to={'/forgot'}
+               color="secondary"
+               sx={{ textDecoration: 'none' }}
+            >
+               Esqueci minha senha?
+            </Typography>
          </Stack>
 
          <Box sx={{ mt: 2 }}>
@@ -172,7 +137,7 @@ const AuthLogin = ({ setSecret, setHashTrocarsenha }) => {
             </AnimateButton>
          </Box>
       </>
-    );
+   );
 };
 
 export default AuthLogin;

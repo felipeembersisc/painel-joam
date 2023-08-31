@@ -12,7 +12,7 @@ import useAuth from '@/hooks/useAuth';
  * @param {PropTypes.node} children children element/node
  */
 const AuthGuard = ({ children }) => {
-   const { isLoggedIn, user, verificarStatusToken, isCodeVerification } = useAuth();
+   const { isLoggedIn, user, verificarStatusToken } = useAuth();
    const navigate = useNavigate();
 
    useEffect(() => {
@@ -20,7 +20,7 @@ const AuthGuard = ({ children }) => {
          navigate('login', { replace: true });
       }
    
-      if(isLoggedIn && user.token && isCodeVerification){
+      if(isLoggedIn && user.token){
          verificarStatusToken(user.token);
       }
    }, [isLoggedIn, navigate]);

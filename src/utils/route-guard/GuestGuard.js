@@ -14,11 +14,11 @@ import { DASHBOARD_PATH } from '@/config';
  */
 
 const GuestGuard = ({ children }) => {
-    const { isLoggedIn, isCodeVerification } = useAuth();
+    const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isLoggedIn && isCodeVerification) {
+        if (isLoggedIn) {
             navigate(DASHBOARD_PATH, { replace: true });
         }
     }, [isLoggedIn, navigate]);
