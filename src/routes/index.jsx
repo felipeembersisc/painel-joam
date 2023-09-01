@@ -2,7 +2,7 @@ import { useRoutes, Navigate } from 'react-router-dom';
 
 // routes
 import AuthenticationRoutes from './AuthenticationRoutes';
-import { RotasDashboard } from './RotasDashboard';
+import { Rotas } from './Rotas';
 
 // Reducer
 import useAuth from '../hooks/useAuth';
@@ -15,6 +15,6 @@ export default function ThemeRoutes() {
     if (!isLoggedIn || !user) {
         return useRoutes([{ path: '*', element: <Navigate to="/login" /> }, AuthenticationRoutes]);
     } else {
-        return useRoutes([{ path: '*', element: <Navigate to="/dashboard" /> }, RotasDashboard]);
+        return useRoutes([{ path: '*', element: <Navigate to="/dashboard" /> }, Rotas]);
     }
 }

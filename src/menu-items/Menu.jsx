@@ -3,7 +3,7 @@ import { IconHome, IconBrandWindows, IconArticle, IconPlus, IconReportMedical, I
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
-export const menuDashboard = [
+export const menu = [
    {
       id: 'menu',
       title: 'CRM - Menu',
@@ -11,7 +11,7 @@ export const menuDashboard = [
       type: 'group',
       children: [
          {
-            id: 'dashboardAtivos',
+            id: 'dashboard',
             title: 'Dashboard',
             type: 'item',
             icon: IconHome,

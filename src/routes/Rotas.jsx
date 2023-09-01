@@ -6,11 +6,11 @@ import Loadable from '@/ui-component/Loadable';
 import AuthGuard from '@/utils/route-guard/AuthGuard';
 
 // TI - INVENTARIO
-const DashBoardAtivos = Loadable(lazy(() => import('../views/dashboard')));
+const DashBoard = Loadable(lazy(() => import('../views/dashboard')));
 
 // ==============================|| DASHBOARD ROTAS ||============================== //
 
-export const RotasDashboard = {
+export const Rotas = {
    path: '/',
    element: (
       <AuthGuard>
@@ -23,17 +23,8 @@ export const RotasDashboard = {
          children: [
             {
                path: 'dashboard',
-               element: <DashBoardAtivos />
+               element: <DashBoard />
             },
-         ]
-      },
-      {
-         path: '/ti/inventario',
-         children: [
-            {
-               path: 'dashboard',
-               element: <DashBoardAtivos />
-            }
          ]
       }
    ]

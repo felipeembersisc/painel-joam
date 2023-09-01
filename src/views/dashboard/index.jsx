@@ -40,7 +40,7 @@ import { toast } from 'react-toastify';
 // ===========================|| WIDGET STATISTICS ||=========================== //
 
 
-const DashboardAtivos = () => {
+const DashBoard = () => {
    const { user } = useAuth();
    const funUser = user.funcionario;
 
@@ -605,4 +605,4 @@ const DashboardAtivos = () => {
    );
 };
 
-export default DashboardAtivos;
+export default DashBoard;

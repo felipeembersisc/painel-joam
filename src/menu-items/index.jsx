@@ -1,5 +1,5 @@
 // Menus
-import { menuDashboard } from './MenuDashboard';
+import { menu } from './Menu';
 
 // Hooks
 import useAuth from '../hooks/useAuth';
@@ -9,13 +9,11 @@ import useAuth from '../hooks/useAuth';
 const menuItems = () => {
     const { user } = useAuth();
 
-    let menu = null;
-
     if (user.uid) {
-        menu = menuDashboard
+        return { items: menu };
+    } else {
+        return { items: [] };
     }
-
-    return { items: menu };
 };
 
 export default menuItems;

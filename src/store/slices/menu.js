@@ -6,7 +6,7 @@ const initialState = {
     selectedID: null,
     drawerOpen: false,
     error: null,
-    menuDashboard: {}
+    menu: {}
 };
 
 // ==============================|| SLICE - MENU ||============================== //
@@ -34,7 +34,7 @@ const menu = createSlice({
 
         // get dashboard menu
         getMenuListSuccess(state, action) {
-            state.menuDashboard = action.payload;
+            state.menu = action.payload;
         }
     }
 });
