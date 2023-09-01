@@ -6,9 +6,9 @@ import ReactDataTable, { createTheme } from 'react-data-table-component';
 
 // Hooks
 import { useTheme } from '@mui/material/styles';
-import { Stack, Typography } from '@mui/material';
+import { Grid, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-export function DateTable({titulo, linhas, colunas, options, ...rest}){
+export function DateTable({ titulo, linhas, colunas, options, ...rest }) {
 
    const theme = useTheme();
 
@@ -18,7 +18,7 @@ export function DateTable({titulo, linhas, colunas, options, ...rest}){
       //   secondary: '#2aa198',
       // },
       background: {
-        default: theme.palette.dark.dark,
+         default: theme.palette.dark.dark,
       },
       // context: {
       //   background: '#cb4b16',
@@ -32,7 +32,7 @@ export function DateTable({titulo, linhas, colunas, options, ...rest}){
       //   hover: 'rgba(0,0,0,.08)',
       //   disabled: 'rgba(0,0,0,.12)',
       // },
-    }, 'dark');
+   }, 'dark');
 
    //  Internally, customStyles will deep merges your customStyles with the default styling.
    const customStyles = {
@@ -59,35 +59,44 @@ export function DateTable({titulo, linhas, colunas, options, ...rest}){
    };
 
    const optionsDataTable = {
-      direction:"auto",
-      fixedHeaderScrollHeight:"300px",
+      direction: "auto",
+      fixedHeaderScrollHeight: "300px",
       highlightOnHover: true,
       noHeader: rest.isClearFiltro ? false : true,
       pagination: true,
       responsive: true,
       striped: true,
-      subHeaderAlign:"right",
+      subHeaderAlign: "right",
       subHeaderWrap: true,
       paginationRowsPerPageOptions: [],
       paginationComponentOptions: {
-         rowsPerPageText: 'Linhas por página:', 
-         rangeSeparatorText: 'de', 
-         noRowsPerPage: true, 
-         selectAllRowsItem: false, 
+         rowsPerPageText: 'Linhas por página:',
+         rangeSeparatorText: 'de',
+         noRowsPerPage: true,
+         selectAllRowsItem: false,
          selectAllRowsItemText: 'All'
       },
       noDataComponent: (
-         <Stack bgcolor={theme.palette.mode === 'dark' ? theme.palette.dark.dark : '#FFF'} paddingBottom={2} width='100%' justifyContent='center' alignItems='center'>
-            <Typography py={5}>
-               Nenhum Dado Encontrado
-            </Typography>
-         </Stack>
-      ),
-      ...options,
-      ...rest
+         <Table sx={{ minWidth: 350 }} aria-label="simple table">
+            <TableHead>
+               <TableRow key={0}>
+                  {colunas && colunas.length > 0 && colunas.map((coluna) => (
+                     <TableCell align="right">{coluna.name}</TableCell>
+                  ))}
+               </TableRow>
+            </TableHead>
+            <TableBody>
+               <TableRow key={0}>
+                  <TableCell sx={{ pl: 3 }} component="th" scope="row" align="center" colSpan={colunas.length}>
+                     Nenhum registro encontrado.
+                  </TableCell>
+               </TableRow>
+            </TableBody>
+         </Table>
+      )
    }
 
-   return(
+   return (
       <Container>
          <ReactDataTable
             title={titulo}

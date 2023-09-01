@@ -8,7 +8,6 @@ import AuthGuard from '@/utils/route-guard/AuthGuard';
 //pages
 const DashBoard = Loadable(lazy(() => import('../views/dashboard')));
 const Blacklist = Loadable(lazy(() => import('../views/cadastros/blacklist')));
-console.log("Blacklist: ", Blacklist)
 
 // ==============================|| DASHBOARD ROTAS ||============================== //
 
