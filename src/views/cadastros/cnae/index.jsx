@@ -25,6 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 // components
 import { DateTable } from "../../../components/DataTable";
 import ModalCadastro from "./ModalCadastro";
+import ModalFiltro from "./ModalFiltro";
 
 // services api
 import { listar, listarSegmentos, inativar } from "../../../services/cnae";
@@ -39,6 +40,7 @@ const Cnae = () => {
   const [segmentos, setSegmentos] = useState([]);
   const [datatable, setDatatable] = useState({});
   const [abrirModalCadastro, setAbrirModalCadastro] = useState(false);
+  const [abrirModalFiltro, setAbrirModalFiltro] = useState(false);
 
   useEffect(() => {
     listarCnaes(null, null, null, null, 1);
@@ -186,7 +188,7 @@ const Cnae = () => {
                 size="small"
                 color="primary"
                 endIcon={<SearchIcon />}
-                onClick={() => setAbrirModalCadastro(!abrirModalCadastro)}
+                onClick={() => setAbrirModalFiltro(!abrirModalFiltro)}
               >
                 Pesquisar
               </Button>
@@ -212,7 +214,9 @@ const Cnae = () => {
           colunas={datatable.columns || []}
         />
       </MainCard>
+
       <ModalCadastro open={abrirModalCadastro} setOpen={setAbrirModalCadastro} listar={listarCnaes} segmentos={segmentos} cnae={cnae} setCnae={setCnae} />
+      <ModalFiltro open={abrirModalFiltro} setOpen={setAbrirModalFiltro} listar={listarCnaes} segmentos={segmentos} />
     </>
   );
 };
