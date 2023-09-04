@@ -8,6 +8,7 @@ import AuthGuard from '@/utils/route-guard/AuthGuard';
 //pages
 const DashBoard = Loadable(lazy(() => import('../views/dashboard')));
 const Blacklist = Loadable(lazy(() => import('../views/cadastros/blacklist')));
+const Cnae = Loadable(lazy(() => import('../views/cadastros/cnae')));
 
 // ==============================|| DASHBOARD ROTAS ||============================== //
 
@@ -30,6 +31,10 @@ export const Rotas = {
                path: 'blacklist',
                element: <Blacklist />
             },
+            {
+               path: 'cnae',
+               element: <Cnae />
+            }
          ]
       }
    ]
