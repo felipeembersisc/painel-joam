@@ -15,12 +15,18 @@ import { useTheme } from '@mui/material/styles';
 // projects imports
 import MainCard from '@/ui-component/cards/MainCard';
 import moment from 'moment';
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+
+import "sweetalert2/src/sweetalert2.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 // components
 import { DateTable } from "../../../components/DataTable";
+import ModalCadastro from "./ModalCadastro";
 
 // services api
-import { listar, salvar, bloquear } from "../../../services/blacklist"
+import { listar, bloquear } from "../../../services/blacklist"
 
 const Blacklist = () => {
   const theme = useTheme();
@@ -28,7 +34,8 @@ const Blacklist = () => {
   const { handleLoad } = useLoad();
 
   const [registros, setRegistros] = useState([]);
-  const [datatable, setDatatable] = useState({})
+  const [datatable, setDatatable] = useState({});
+  const [abrirModalCadastro, setAbrirModalCadastro] = useState(false);
 
   useEffect(() => {
     handleListar();
@@ -49,15 +56,27 @@ const Blacklist = () => {
           codigo_blc: item.codigo_blc,
           cnpj_blc: item.cnpj_blc,
           razaosocial_emp: item.razaosocial_emp
-            ? formatarListaRazaoSocial(item.razaosocial_emp)
+            ? (
+              <Tooltip title={formatarListaRazaoSocial(item.razaosocial_emp)}>
+                {formatarListaRazaoSocial(item.razaosocial_emp)}
+              </Tooltip>
+            )
             : item.empresa_rai
-              ? formatarListaRazaoSocial(item.empresa_rai)
+              ? (
+                <Tooltip title={formatarListaRazaoSocial(item.empresa_rai)}>
+                  {formatarListaRazaoSocial(item.empresa_rai)}
+                </Tooltip>
+              )
               : "",
           bloqueadoem_blc: item.bloqueadoem_blc
             ? `Bloqueado no dia ${moment(item.bloqueadoem_blc).format("DD/MM/YYYY HH:mm:ss")}`
             : "",
           nome_usu: item.nome_usu
-            ? (<strong>{item.nome_usu}</strong>)
+            ? (
+              <Tooltip title={item.nome_usu}>
+                <strong>{item.nome_usu}</strong>
+              </Tooltip>
+            )
             : "",
           acao: !item.bloqueadoem_blc
             ? (
@@ -66,7 +85,7 @@ const Blacklist = () => {
                 size="small"
                 color="warning"
                 endIcon={<DoDisturbIcon />}
-                onClick={() => handleBloquear(item.cnpj_blc)}
+                onClick={() => handleBloquear(user.token, item.cnpj_blc)}
               >
                 Bloquear CNPJ
               </Button>
@@ -88,7 +107,7 @@ const Blacklist = () => {
     }
   }
 
-  async function handleBloquear(cnpj) {
+  async function handleBloquear(token, cnpj) {
     Swal.fire({
       title: "Bloquear CNPJ?",
       text: "Ação irreversível",
@@ -103,7 +122,7 @@ const Blacklist = () => {
       if (result.isConfirmed) {
         handleLoad(true)
         try {
-          const resposta = await bloquear({ cnpj_blc: cnpj })
+          const resposta = await bloquear(token, { cnpj_blc: cnpj })
           if (resposta.retorno) {
             Swal.fire("Sucesso", "O CNPJ foi bloqueado com sucesso.", "success")
           }
@@ -142,30 +161,34 @@ const Blacklist = () => {
   }
 
   return (
-    <MainCard
-      content={false}
-      title="Data Tables"
-      secondary={
-        <Stack direction="row" spacing={2} alignItems="center">
-          <Tooltip title="Adicionar Ativo">
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              endIcon={<AddIcon />}
-            >
-              Adicionar
-            </Button>
-          </Tooltip>
-        </Stack>
-      }
-    >
+    <>
+      <MainCard
+        content={false}
+        title="Lista de dados"
+        secondary={
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Tooltip title="Adicionar">
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                endIcon={<AddIcon />}
+                onClick={() => setAbrirModalCadastro(!abrirModalCadastro)}
+              >
+                Adicionar
+              </Button>
+            </Tooltip>
+          </Stack>
+        }
+      >
 
-      <DateTable
-        linhas={datatable.rows || []}
-        colunas={datatable.columns || []}
-      />
-    </MainCard>
+        <DateTable
+          linhas={datatable.rows || []}
+          colunas={datatable.columns || []}
+        />
+      </MainCard>
+      <ModalCadastro open={abrirModalCadastro} setOpen={setAbrirModalCadastro} listar={handleListar} />
+    </>
   );
 };
 

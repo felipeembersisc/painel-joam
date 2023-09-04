@@ -19,13 +19,11 @@ export async function listar(token) {
    })
 }
 
-export async function salvar(dados) {
+export async function salvar(token, dados) {
    return new Promise(async (resolve, reject) => {
       try {
          const { cnpj_blc } = dados
-
-         const sessao = JSON.parse(localStorage.getItem("@CRMAdmin:user"))
-         const resultado = await instance.post("/blacklist/salvar", { cnpj_blc }, { headers: { token: sessao.token } })
+         const resultado = await instance.post("/blacklist/salvar", { cnpj_blc }, { headers: { token } })
 
          const { status, data } = resultado
 
@@ -40,13 +38,11 @@ export async function salvar(dados) {
    })
 }
 
-export async function bloquear(dados) {
+export async function bloquear(token, dados) {
    return new Promise(async (resolve, reject) => {
       try {
          const { cnpj_blc } = dados
-
-         const sessao = JSON.parse(localStorage.getItem("@CRMAdmin:user"))
-         const resultado = await instance.post("/blacklist/bloquear", { cnpj_blc }, { headers: { token: sessao.token } })
+         const resultado = await instance.post("/blacklist/bloquear", { cnpj_blc }, { headers: { token } })
 
          const { status, data } = resultado
 
