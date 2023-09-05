@@ -9,6 +9,7 @@ import AuthGuard from '@/utils/route-guard/AuthGuard';
 const DashBoard = Loadable(lazy(() => import('../views/dashboard')));
 const Blacklist = Loadable(lazy(() => import('../views/cadastros/blacklist')));
 const Cnae = Loadable(lazy(() => import('../views/cadastros/cnae')));
+const ConfiguracaoMailing = Loadable(lazy(() => import('../views/cadastros/configuracaoMailing')));
 
 // ==============================|| DASHBOARD ROTAS ||============================== //
 
@@ -34,6 +35,10 @@ export const Rotas = {
             {
                path: 'cnae',
                element: <Cnae />
+            },
+            {
+               path: 'configuracao-mailing',
+               element: <ConfiguracaoMailing />
             }
          ]
       }
