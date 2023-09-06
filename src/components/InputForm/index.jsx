@@ -7,56 +7,56 @@ import { useTheme } from '@mui/material/styles';
 // Utils
 import format from '../../utils/format';
 
-export function InputForm({ name, label, error, required, showPassword, variant, ...rest }){
+export function InputForm({ name, label, error, required, showPassword, variant, ...rest }) {
    const theme = useTheme();
 
    let type = 'text';
 
-   switch(showPassword){
+   switch (showPassword) {
       case 'undefined':
          type = 'text';
-      break;
+         break;
       case true:
          type = 'text';
-      break;
+         break;
       case false:
          type = 'password';
-      break
+         break
    }
 
    return rest.control ? (
       <>
          <Controller
             control={rest.control}
-            rules={{required: required}}
-            render={({field: { onChange, onBlur, value }}) => {
+            rules={{ required: required }}
+            render={({ field: { onChange, onBlur, value } }) => {
 
-               function formatarValor(value){
-                  if(value){
-                     switch(rest.type){
+               function formatarValor(value) {
+                  if (value) {
+                     switch (rest.type) {
 
                         case 'cep':
-                        return format.zipcode(value, value);
-                        
+                           return format.zipcode(value, value);
+
                         case 'cpf':
-                        return format.cpf(value, value);
-                        
+                           return format.cpf(value, value);
+
                         case 'cpfCnpj':
-                        return format.cpfCnpj(value, value);
-                        
+                           return format.cpfCnpj(value, value);
+
                         case 'phone':
-                        return format.phone(value, value);
+                           return format.phone(value, value);
 
                         case 'birthday':
-                        return format.birthday(value, value);
-                           
+                           return format.birthday(value, value);
+
                         case 'money':
                            let v = value.replace(/\D/g, '');
                            v = (Number(v) / 100).toFixed(2) + '';
                            v = v.replace('.', ',');
                            v = v.replace(/(\d)(\d{3})(\d{3}),/g, '$1.$2.$3,');
                            v = v.replace(/(\d)(\d{3}),/g, '$1.$2,');
-                        return v;
+                           return v;
 
                         case "moneyNegative":
                            let negativo = '';
@@ -70,23 +70,23 @@ export function InputForm({ name, label, error, required, showPassword, variant,
                            money = money.replace(/(\d)(\d{3}),/g, "$1.$2,");
                            value = negativo === '-' ? negativo + money : money;
 
-                        return value;
+                           return value;
 
                         case 'percentual':
                            let valor = value.replace(/\D/g, '');
-                           if((Number(valor) / 100) <= 100){
+                           if ((Number(valor) / 100) <= 100) {
                               return (Number(valor) / 100).toFixed(2) + '';
                            }
-                        break;
+                           break;
 
                         case 'number':
                            value = String(value).replace(/[^\d]/g, '');
-                        return value && parseInt(value);
+                           return value && parseInt(value);
 
                         default:
-                        return value;
+                           return value;
                      }
-                  }else{
+                  } else {
                      return "";
                   }
                }
@@ -121,9 +121,9 @@ export function InputForm({ name, label, error, required, showPassword, variant,
             }}
             name={name}
          />
-         {error && 
+         {error &&
             <FormControl fullWidth>
-               <Typography color='red' ml={0.5} mb={0.5} fontSize={13}>{error}</Typography>
+               <Typography color='red' ml={0.5} mt={0.2} mb={0.5} fontSize={13}>{error}</Typography>
             </FormControl>
          }
       </>
@@ -141,11 +141,11 @@ export function InputForm({ name, label, error, required, showPassword, variant,
          <FormControl fullWidth error={Boolean(error)} sx={{ ...theme.typography.customInput }}>
             <InputLabel htmlFor={name}>{label}</InputLabel>
             <OutlinedInput
-                  id={name}
-                  type={type}
-                  value={rest?.value ?? ""}
-                  inputProps={{}}
-                  {...rest}
+               id={name}
+               type={type}
+               value={rest?.value ?? ""}
+               inputProps={{}}
+               {...rest}
             />
          </FormControl>
       )
