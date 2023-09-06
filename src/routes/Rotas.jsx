@@ -11,6 +11,7 @@ const Blacklist = Loadable(lazy(() => import('../views/cadastros/blacklist')));
 const Cnae = Loadable(lazy(() => import('../views/cadastros/cnae')));
 const ConfiguracaoMailing = Loadable(lazy(() => import('../views/cadastros/configuracaoMailing')));
 const SegmentoCnae = Loadable(lazy(() => import('../views/cadastros/segmentoCnae')));
+const Origem = Loadable(lazy(() => import('../views/cadastros/origem')));
 
 // ==============================|| DASHBOARD ROTAS ||============================== //
 
@@ -44,6 +45,10 @@ export const Rotas = {
             {
                path: 'segmento-cnae',
                element: <SegmentoCnae />
+            },
+            {
+               path: 'origem',
+               element: <Origem />
             }
          ]
       }
