@@ -74,12 +74,6 @@ export const menu = [
                   url: '/cadastro/mensagem'
                },
                {
-                  id: 'mensagem',
-                  title: 'Mensagem',
-                  type: 'item',
-                  url: '/cadastro/mensagem'
-               },
-               {
                   id: 'origem',
                   title: 'Origem',
                   type: 'item',

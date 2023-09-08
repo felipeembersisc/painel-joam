@@ -12,6 +12,7 @@ const Cnae = Loadable(lazy(() => import('../views/cadastros/cnae')));
 const ConfiguracaoMailing = Loadable(lazy(() => import('../views/cadastros/configuracaoMailing')));
 const SegmentoCnae = Loadable(lazy(() => import('../views/cadastros/segmentoCnae')));
 const Origem = Loadable(lazy(() => import('../views/cadastros/origem')));
+const Mensagem = Loadable(lazy(() => import('../views/cadastros/mensagem')));
 
 // ==============================|| DASHBOARD ROTAS ||============================== //
 
@@ -49,6 +50,10 @@ export const Rotas = {
             {
                path: 'origem',
                element: <Origem />
+            },
+            {
+               path: 'mensagem',
+               element: <Mensagem />
             }
          ]
       }
