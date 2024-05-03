@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import {
-    Box,
-    Button,
-    FormControl,
-    Grid,
-    IconButton,
-    InputAdornment,
-    Typography
+   Box,
+   Button,
+   FormControl,
+   Grid,
+   IconButton,
+   InputAdornment,
+   Typography
 } from '@mui/material';
 
 // project imports
@@ -42,15 +42,15 @@ const schemaPassword = Yup.object().shape({
 // ========================|| RESET PASSWORD ||======================== //
 
 const AuthResetPassword = ({ hashTrocarSenha, setHashTrocarsenha }) => {
-    const { savePassword } = useAuth();
-    const navigate = useNavigate();
+   const { savePassword } = useAuth();
+   const navigate = useNavigate();
 
-    const [showPassword, setShowPassword] = useState(false);
-    const [strength, setStrength] = useState(0);
-    const [validacaoSenha, setValidacaoSenha] = useState("");
-    const [level, setLevel] = useState();
+   const [showPassword, setShowPassword] = useState(false);
+   const [strength, setStrength] = useState(0);
+   const [validacaoSenha, setValidacaoSenha] = useState("");
+   const [level, setLevel] = useState();
 
-    const {
+   const {
       watch,
       setValue,
       control,
@@ -60,50 +60,50 @@ const AuthResetPassword = ({ hashTrocarSenha, setHashTrocarsenha }) => {
 
    const senha = watch('usu_senha');
 
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
+   const handleClickShowPassword = () => {
+      setShowPassword(!showPassword);
+   };
 
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+   const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+   };
 
-    const changePassword = (value) => {
-        const temp = strengthIndicatorNumFunc(value);
-        setStrength(temp);
-        setLevel(strengthColor(temp));
-    };
+   const changePassword = (value) => {
+      const temp = strengthIndicatorNumFunc(value);
+      setStrength(temp);
+      setLevel(strengthColor(temp));
+   };
 
-   const handleSavePassword = async(data) => {
-      if(strength === 5 && validacaoSenha){
+   const handleSavePassword = async (data) => {
+      if (strength === 5 && validacaoSenha) {
          const result = await savePassword(data.usu_senha, hashTrocarSenha);
-         if(result){
+         if (result) {
             setHashTrocarsenha(null);
             navigate('/login');
          }
       }
    }
 
-    return (
+   return (
       <>
          <InputForm
             name="usu_senha"
             control={control}
             label='Senha'
-            onChange={(e)=> {
+            onChange={(e) => {
                changePassword(e.target.value)
                setValue('usu_senha', e.target.value)
             }}
             endAdornment={
                <InputAdornment position="end">
                   <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                        size="large"
+                     aria-label="toggle password visibility"
+                     onClick={handleClickShowPassword}
+                     onMouseDown={handleMouseDownPassword}
+                     edge="end"
+                     size="large"
                   >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                </InputAdornment>
             }
@@ -115,25 +115,25 @@ const AuthResetPassword = ({ hashTrocarSenha, setHashTrocarsenha }) => {
 
          {strength !== 0 && (
             <FormControl fullWidth>
-                  <Box sx={{ mb: 2 }}>
-                     <Grid container spacing={2} alignItems="center">
-                        <Grid item>
-                              <Box
-                                 style={{ backgroundColor: level?.color }}
-                                 sx={{
-                                    width: 85,
-                                    height: 8,
-                                    borderRadius: '7px'
-                                 }}
-                              />
-                        </Grid>
-                        <Grid item>
-                              <Typography variant="subtitle1" fontSize="0.75rem">
-                                 {level?.label}
-                              </Typography>
-                        </Grid>
+               <Box sx={{ mb: 2 }}>
+                  <Grid container spacing={2} alignItems="center">
+                     <Grid item>
+                        <Box
+                           style={{ backgroundColor: level?.color }}
+                           sx={{
+                              width: 85,
+                              height: 8,
+                              borderRadius: '7px'
+                           }}
+                        />
                      </Grid>
-                  </Box>
+                     <Grid item>
+                        <Typography variant="subtitle1" fontSize="0.75rem">
+                           {level?.label}
+                        </Typography>
+                     </Grid>
+                  </Grid>
+               </Box>
             </FormControl>
          )}
 
@@ -148,31 +148,31 @@ const AuthResetPassword = ({ hashTrocarSenha, setHashTrocarsenha }) => {
 
          <Box sx={{ mt: 1 }} >
             <AnimateButton>
-                  <Button
-                     disableElevation
-                     fullWidth
-                     size="large"
-                     type="submit"
-                     variant="contained"
-                     color="secondary"
-                     onClick={handleSubmit(handleSavePassword)}
-                  >
-                     Resetar Senha
-                  </Button>
+               <Button
+                  disableElevation
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleSubmit(handleSavePassword)}
+               >
+                  Resetar Senha
+               </Button>
             </AnimateButton>
          </Box>
 
          {
             senha &&
             <Box mt={3}>
-               <StrongPasswordList 
+               <StrongPasswordList
                   senha={senha}
-                  onChange={(e)=> setValidacaoSenha(e)}
+                  onChange={(e) => setValidacaoSenha(e)}
                />
             </Box>
          }
       </>
-    );
+   );
 };
 
 export default AuthResetPassword;
